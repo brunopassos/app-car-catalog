@@ -1,45 +1,41 @@
-O projeto abaixo faz parte de um teste técnico que estou participando.
+## O projeto abaixo faz parte de um teste técnico que estou participando.
 
-Desafio
+# Desafio
 
 Desenvolver um sistema com um catálogo de veículos a venda.
 
-Front-end
+## Front-end
 
-**Stack Base
+## Stack Base
 - React Native
 
-**Regras de negócio
+## Regras de negócio
 - Página de cadastro informando username e senha
 - Página de login informando username e senha
 - Ao fazer login, é exibida a lista de carros do usuário e o menu exibe a opção para adicionar um novo carro e fazer logout;
 - Cada carro na listagem do usuário terá um botão para editar e outro para deletar;
-- Botão para ordenar os veículos:
- 
-- Listagem com todos os carros a venda ordenada por valor (Menor para o maior) conforme exemplo abaixo:
-   
-- Barra de filtro:
- 
-- Menu lateral deve ter as opções de Login, Registro (Similar ao print abaixo):
- 
-
-**Form que pode ser usado de exemplo tanto para login quanto para criação de conta
+- Botão para ordenar os veículos;
+- Listagem com todos os carros a venda ordenada por valor (Menor para o maior);   
+- Barra de filtro; 
+- Menu lateral deve ter as opções de Login e Registro;
+- Form que pode ser usado de exemplo tanto para login quanto para criação de conta;
  
 -------------------------
 
-Backend
+## Backend
 
-**Stack base
+##Stack base
 - Servidor utilizando Node.js + Typescript
-**Banco de dados PostfreSQL + README de como utilizar
+- Banco de dados PostfreSQL + README de como utilizar
 
-**Arquitetura
-**Tabela Users:
+## Arquitetura
+
+## Tabela Users:
 - Id -> PK
 - Username
 - password
 
-**Tabela vehicles:
+## Tabela vehicles:
 - Id -> PK
 - Name
 - Brand
@@ -51,7 +47,7 @@ Backend
 - Value
 - Photo
 
-**Regras de negócio
+## Regras de negócio
 - Para cadastro dos veículos, deverá ter um login administrativo com token JWT;
 - O admin só pode ser acessado se o usuário conseguir se autenticar;
 - Todas as requisições privadas precisam de um token válido gerado no login para funcionamento da requisição;
