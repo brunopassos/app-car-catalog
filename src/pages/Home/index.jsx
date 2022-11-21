@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View } from "react-native";
 import CarList from "../../components/CarList";
 
 import Header from "../../components/Header";
@@ -9,7 +9,7 @@ import FilterOptions from "../../components/FilterOption";
 export default function Home() {
   return (
     <View style={{ flex: 1 }}>
-      <Header />
+      <Header/>
       <SearchBar />
       <FilterOptions/>
       <CarList />
