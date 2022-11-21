@@ -6,10 +6,10 @@ import Header from "../../components/Header";
 import SearchBar from "../../components/searchBar";
 import FilterOptions from "../../components/FilterOption";
 
-export default function Home() {
+export default function Home({isLoggedin, setIsLoggedin}) {
   return (
     <View style={{ flex: 1 }}>
-      <Header/>
+      <Header isLoggedin={isLoggedin} setIsLoggedin={setIsLoggedin}/>
       <SearchBar />
       <FilterOptions/>
       <CarList />
