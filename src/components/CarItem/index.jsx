@@ -19,6 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 
 export const CarItem = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [carModalVisible, setCarModalVisible] = useState(false);
 
   const {
     control,
@@ -67,7 +68,9 @@ export const CarItem = (props) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.img} source={props.imageLink} />
+      <TouchableOpacity onPress={() => setCarModalVisible(true)}>
+        <Image style={styles.img} source={props.imageLink} />
+      </TouchableOpacity>
       <Text style={styles.textTitleStyle}>
         {props.brand} {props.name} {props.model}
       </Text>
@@ -77,20 +80,23 @@ export const CarItem = (props) => {
       <Text style={styles.textValueStyle}>
         R$ {props.value.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
       </Text>
-      <View style={styles.buttonsView}>
-        <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text style={styles.textStyle}>Editar</Text>
-        </Pressable>
-        <TouchableOpacity
-          style={styles.logoutButton}
-          onPress={() => removeCar()}
-        >
-          <Text>Remover</Text>
-        </TouchableOpacity>
-      </View>
+
+      {props.isLoggedin && (
+        <View style={styles.buttonsView}>
+          <Pressable
+            style={[styles.button, styles.buttonOpen]}
+            onPress={() => setModalVisible(true)}
+          >
+            <Text style={styles.textStyle}>Editar</Text>
+          </Pressable>
+          <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={() => removeCar()}
+          >
+            <Text>Remover</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
@@ -250,6 +256,48 @@ export const CarItem = (props) => {
                     <Text style={styles.textStyle}>Cancelar</Text>
                   </Pressable>
                 </View>
+              </ScrollView>
+            </View>
+          </View>
+        </Modal>
+      </View>
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={carModalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setCarModalVisible(!carModalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <ScrollView contentContainerStyle={styles.mainContainer}>
+                <View>
+                  <Image style={styles.img} source={props.imageLink} />
+                  <Text style={styles.textTitleStyle}>
+                    {props.brand} {props.name} {props.model}
+                  </Text>
+                  <Text style={styles.textDataStyle}>
+                    {props.year} - {props.km} km - {props.city}-{props.state}
+                  </Text>
+                  <Text style={styles.textValueStyle}>
+                    R${" "}
+                    {props.value
+                      .toFixed(2)
+                      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
+                  </Text>
+                </View>
+                <View>
+                  <Text>Detalhes</Text>
+                </View>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setCarModalVisible(!carModalVisible)}
+                >
+                  <Text style={styles.textStyle}>Fechar</Text>
+                </Pressable>
               </ScrollView>
             </View>
           </View>

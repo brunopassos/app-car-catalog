@@ -2,9 +2,9 @@ import { FlatList, StyleSheet } from "react-native";
 import db from "./../../DataBase/banco";
 import { CarItem } from "../CarItem";
 
-export default () => {
+export default ({isLoggedin}) => {
   const renderItem = ({ item }) => {
-    return <CarItem {...item} />;
+    return <CarItem {...item} isLoggedin={isLoggedin} />;
   };
   return (
     <FlatList
