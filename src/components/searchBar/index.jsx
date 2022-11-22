@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 
 export default function SearchBar() {
   return (
@@ -8,7 +8,9 @@ export default function SearchBar() {
         placeholder="Busque por marca, modelo, ano, cor..."
         style={styles.searchBar}
       />
-      <Button title="Buscar"/>
+      <TouchableOpacity style={styles.searchButton}>
+        <Text>BUSCAR</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -28,5 +30,13 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 8,
     paddingLeft: 10,
-  }
+  },
+  searchButton: {
+    backgroundColor: "#8ab2f2",
+    height: 40,
+    width: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 2,
+  },
 });
