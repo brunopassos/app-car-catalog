@@ -1,5 +1,5 @@
 import { AppDataSource } from "./../../data-source";
-import { IUserCreateLogin, IUser } from "../../interfaces/users";
+import { IUserCreateLogin } from "../../interfaces/users";
 import { User } from "../../entities/user.entity";
 import bcrypt from "bcrypt";
 import { AppError } from "../../errors/appError";
