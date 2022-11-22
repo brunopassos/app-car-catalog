@@ -1,8 +1,10 @@
 import { AppDataSource } from "./../../data-source";
-import { IUserCreate, IUser } from "../../interfaces/users";
+import { IUserCreateLogin, IUser } from "../../interfaces/users";
 import { User } from "../../entities/user.entity";
+import bcrypt from "bcrypt";
+import { AppError } from "../../errors/appError";
 
-const userCreateService = async ({ email, password }: IUserCreate) => {
+const userCreateService = async ({ email, password }: IUserCreateLogin) => {
   const userRepository = AppDataSource.getRepository(User);
 
   const users = await userRepository.find();
@@ -10,12 +12,12 @@ const userCreateService = async ({ email, password }: IUserCreate) => {
   const emailAlreadyExists = users.find((user) => user.email === email);
 
   if (emailAlreadyExists) {
-    throw new Error("Email já existe.");
+    throw new AppError(409, "Email já existe.");
   }
 
   const user = new User();
   user.email = email;
-  user.password = password;
+  user.password = bcrypt.hashSync(password, 10);
 
   userRepository.create(user);
   await userRepository.save(user);
