@@ -12,7 +12,7 @@ export default function Home({isLoggedin, setIsLoggedin}) {
       <Header isLoggedin={isLoggedin} setIsLoggedin={setIsLoggedin}/>
       <SearchBar />
       <FilterOptions/>
-      <CarList />
+      <CarList isLoggedin={isLoggedin}/>
     </View>
   );
 }

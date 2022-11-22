@@ -101,22 +101,6 @@ const AddVehicleScreen = ({ navigation }) => {
         {errors.model && (
           <Text style={styles.errorMessage}>{errors.model?.message}</Text>
         )}
-        {/* <Controller
-          control={control}
-          name="imageLink"
-          render={({ field: { onChange, value } }) => (
-            <TextInput
-              onChangeText={onChange}
-              style={styles.input}
-              value={value}
-              placeholder={"Foto (Obrigatório)"}
-            />
-          )}
-        />
-        {errors.photo && (
-          <Text style={styles.errorMessage}>{errors.photo?.message}</Text>
-        )} */}
-
         <Controller
           control={control}
           name="imageLink"
@@ -199,12 +183,8 @@ const AddVehicleScreen = ({ navigation }) => {
           )}
         />
 
-        <Button labelButton={"Logar"} onPress={handleSubmit(onSubmit)} />
+        <Button labelButton={"Cadastrar"} onPress={handleSubmit(onSubmit)} />
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Cadastrar")}
-          style={[styles.button, styles.btn]}
-        ></TouchableOpacity>
       </ScrollView>
     </>
   );

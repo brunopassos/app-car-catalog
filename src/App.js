@@ -12,9 +12,10 @@ const Drawer = createDrawerNavigator();
 export default function App() {
 
   const [isLoggedin, setIsLoggedin] = useState(true)
+
   return !isLoggedin ? (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Navigator initialRouteName="Login">
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Login" component={Login} />
         <Drawer.Screen name="Register" component={Register} />
