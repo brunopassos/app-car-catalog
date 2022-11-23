@@ -1,40 +1,44 @@
 import { AppDataSource } from "../../data-source";
 import { IVehicleCreate } from "../../interfaces/vehicles";
 import { Vehicle } from "../../entities/vehicle.entity";
+import { User } from "../../entities/user.entity";
 
-const vehicleCreateService = async ({
-  name,
-  brand,
-  model,
-  year,
-  km,
-  color,
-  city,
-  state,
-  value,
-  imageLink,
-}: IVehicleCreate) => {
+const vehicleCreateService = async (
+  {
+    name,
+    brand,
+    model,
+    year,
+    km,
+    color,
+    city,
+    state,
+    value,
+    imageLink,
+  }: IVehicleCreate,
+  user: User
+): Promise<Vehicle> => {
+  const userRepository = AppDataSource.getRepository(User);
+  const vehicleRepository = AppDataSource.getRepository(Vehicle);
 
-    const vehicleRepository = AppDataSource.getRepository(Vehicle);
 
-    const vehicle = new Vehicle();
+  const vehicle = vehicleRepository.create({
+    name,
+    brand,
+    model,
+    year,
+    km,
+    color,
+    city,
+    state,
+    value,
+    imageLink,
+    user: user!,
+  });
 
-    vehicle.name = name;
-    vehicle.brand = brand;
-    vehicle.model = model;
-    vehicle.year = year;
-    vehicle.km = km;
-    vehicle.color = color;
-    vehicle.city = city;
-    vehicle.state = state;
-    vehicle.value = value;
-    vehicle.imageLink = imageLink;
+  await vehicleRepository.save(vehicle);
 
-    vehicleRepository.create(vehicle);
-    await vehicleRepository.save(vehicle);
-
-    return vehicle;
+  return vehicle;
 };
-
 
 export default vehicleCreateService;

@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
+import { User } from "../../entities/user.entity";
 import { AppError, handleError } from "../../errors/appError";
 import vehicleCreateService from "../../services/vehicles/vehicleCreate.service";
 
 const vehicleCreateController = async (req: Request, res: Response) => {
   try {
-    console.log("controller")
     const {
       name,
       brand,
@@ -18,6 +18,8 @@ const vehicleCreateController = async (req: Request, res: Response) => {
       imageLink,
     } = req.body;
 
+    const user = req.user;
+
     const vehicle = await vehicleCreateService({
       name,
       brand,
@@ -28,8 +30,8 @@ const vehicleCreateController = async (req: Request, res: Response) => {
       city,
       state,
       value,
-      imageLink,
-    });
+      imageLink
+    }, user);
 
     return res.status(201).send(vehicle);
   } catch (error) {

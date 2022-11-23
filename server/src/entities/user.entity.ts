@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 import {v4 as uuid} from "uuid";
+import { Vehicle } from "./vehicle.entity";
 
 @Entity("users")
 export class User{
@@ -11,6 +12,9 @@ export class User{
 
     @Column()
     password: string
+
+    @OneToMany(() => Vehicle, vehicle => vehicle.user)
+    vehicle: Vehicle[]
 
     constructor(){
         if(!this.id){
