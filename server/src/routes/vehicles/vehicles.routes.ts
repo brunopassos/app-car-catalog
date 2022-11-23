@@ -3,13 +3,15 @@ import vehicleCreateController from "../../controllers/vehicles/vehicleCreate.co
 import vehicleDeleteSelfController from "../../controllers/vehicles/vehicleDeleteSelf.controller";
 import vehicleListController from "../../controllers/vehicles/vehicleList.controller";
 import vehicleUpdateController from "../../controllers/vehicles/vehicleUpdate.controller";
+import { authUser } from "../../middlewares/authUser.middleware";
 import vehicleValidationMiddleware from "../../middlewares/vehicleValidation.middleware";
+
 
 const vehicleRoutes = Router();
 
-vehicleRoutes.post("/vehicles", vehicleValidationMiddleware, vehicleCreateController);
-vehicleRoutes.get("/vehicles", vehicleListController);
+vehicleRoutes.post("/vehicles", authUser, vehicleCreateController);
+vehicleRoutes.get("/vehicles", authUser, vehicleListController);
 vehicleRoutes.delete("/vehicles/:id", vehicleDeleteSelfController);
-vehicleRoutes.patch("/vehicles/:id", vehicleValidationMiddleware, vehicleUpdateController);
+vehicleRoutes.patch("/vehicles/:id", authUser, vehicleValidationMiddleware, vehicleUpdateController);
 
 export default vehicleRoutes;
