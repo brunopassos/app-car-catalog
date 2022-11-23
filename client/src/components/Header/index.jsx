@@ -6,12 +6,7 @@ import { AuthContext } from "../../context/auth";
 
 export default function Header() {
   const navigation = useNavigation();
-  const { isLoggedin, setIsLoggedin } = useContext(AuthContext);
-
-  function logout() {
-    setIsLoggedin(false);
-    navigation.navigate("Home");
-  }
+  const { isLoggedin, logout } = useContext(AuthContext);
 
   return !isLoggedin ? (
     <View style={styles.header}>
@@ -33,6 +28,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+    marginTop: 30
   },
   headerSecondary: {
     backgroundColor: "#fff",
@@ -40,6 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     width: "100%",
     flexDirection: "row",
+    marginTop: 30
   },
   logo: {
     width: 150,

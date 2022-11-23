@@ -28,7 +28,7 @@ const schema = yup.object({
 });
 
 const LoginScreen = () => {
-  const { isLoggedIn, setIsLoggedin } = useContext(AuthContext);
+  const { isLoggedIn, login } = useContext(AuthContext);
 
   const navigation = useNavigation();
   const {
@@ -59,7 +59,7 @@ const LoginScreen = () => {
     Api.post("/users/login", data)
       .then((res) => {
         storeData(res.data.token);
-        setIsLoggedin(true);
+        login();
         navigation.navigate("Home");
       })
       .catch((err) => console.error(err));

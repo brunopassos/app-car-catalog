@@ -21,7 +21,7 @@ const schema = yup.object({
   //   imageLink: yup.string().required("A foto não pode ser vazio."),
 });
 
-const AddVehicleScreen = ({ navigation }) => {
+const AddVehicleScreen = () => {
   const {
     control,
     handleSubmit,
