@@ -6,7 +6,7 @@ const userCreateController = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const newUser = await userCreateService({ email, password });
-    return res.status(201).send(newUser);
+    return res.status(201).send({data:{message: "User created", newUser}});
   } catch (error) {
     if (error instanceof AppError) {
       handleError(error, res)

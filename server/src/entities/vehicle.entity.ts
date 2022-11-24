@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
 import {v4 as uuid} from "uuid";
 import { User } from "./user.entity";
 
@@ -37,7 +37,8 @@ export class Vehicle{
     @Column()
     imageLink: string
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { eager: true })
+    @JoinColumn()
     user: User
 
     constructor(){
