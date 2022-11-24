@@ -13,7 +13,7 @@ const vehicleRoutes = Router();
 vehicleRoutes.post("/vehicles", authUser, vehicleCreateController);
 vehicleRoutes.get("/vehicles/me", authUser, vehicleListOwnerController);
 vehicleRoutes.get("/vehicles", vehicleListController);
-vehicleRoutes.delete("/vehicles/:id", vehicleDeleteSelfController);
+vehicleRoutes.delete("/vehicles/:id", authUser, vehicleDeleteSelfController);
 vehicleRoutes.patch("/vehicles/:id", authUser, vehicleUpdateController);
 
 export default vehicleRoutes;
