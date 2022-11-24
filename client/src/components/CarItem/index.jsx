@@ -21,56 +21,29 @@ import { AuthContext } from "../../context/auth";
 
 import { Api } from "../../service/api";
 
+import { useNavigation } from "@react-navigation/native";
+
+
 export const CarItem = (props) => {
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [carModalVisible, setCarModalVisible] = useState(false);
-  const { isLoggedin } = useContext(AuthContext);
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  const schema = yup.object({
-    email: yup
-      .string()
-      .email("Email inválido")
-      .required("O email não pode ser vazio."),
-    password: yup
-      .string()
-      .min(6, "A senha deve ter pelo menos 6 digitos.")
-      .required("A senha não pode ser vazia."),
-  });
-  const [image, setImage] = useState(null);
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    const img = result.assets[0].uri;
-    console.log(img.substring(5));
-    console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
+  const { isLoggedin, getData, setVehicleToEdit, } = useContext(AuthContext);
 
   const removeCar = async (vehicle) => {
-    Api.delete(`/vehicles/${vehicle.id}`)
+    const token = await getData();
+    Api.delete(`/vehicles/${vehicle.id}`, {
+      headers:{
+        Authorization: token,
+      }
+    })
       .then()
       .catch((err) => console.error(err));
   };
 
-  function editCar() {
-    console.log("edited");
-    setModalVisible(!modalVisible);
+  function editVehicle(){
+    setVehicleToEdit(props);
+    navigation.navigate("Editar Veículo");
   }
 
   return (
@@ -92,7 +65,7 @@ export const CarItem = (props) => {
         <View style={styles.buttonsView}>
           <Pressable
             style={[styles.button, styles.buttonOpen]}
-            onPress={() => setModalVisible(true)}
+            onPress={() => editVehicle()}
           >
             <Text style={styles.textStyle}>Editar</Text>
           </Pressable>
@@ -104,13 +77,11 @@ export const CarItem = (props) => {
           </TouchableOpacity>
         </View>
       )}
-      <View style={styles.centeredView}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          
-        >
+
+
+
+      {/* <View style={styles.centeredView}>
+        <Modal animationType="slide" transparent={true} visible={modalVisible}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <ScrollView contentContainerStyle={styles.mainContainer}>
@@ -122,7 +93,7 @@ export const CarItem = (props) => {
                       onChangeText={onChange}
                       style={styles.input}
                       value={value}
-                      placeholder={"Nome (Obrigatório)"}
+                      placeholder={"Nome (Obrigadtório)"}
                     />
                   )}
                 />
@@ -248,7 +219,7 @@ export const CarItem = (props) => {
                 />
                 <View style={styles.btnsModal}>
                   <TouchableOpacity
-                    onPress={() => editCar(props)}
+                    onPress={()=>handleSubmit(onSubmit())}
                     style={styles.button}
                   >
                     <Text>Confirmar</Text>
@@ -264,7 +235,10 @@ export const CarItem = (props) => {
             </View>
           </View>
         </Modal>
-      </View>
+      </View> */}
+
+
+
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
@@ -368,6 +342,8 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
+    borderWidth:1,
+    borderColor: "black"
   },
   textStyle: {
     fontWeight: "bold",

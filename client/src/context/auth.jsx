@@ -10,6 +10,7 @@ function AuthProvider({ children }) {
   const [valueLoginScreen, setValueLoginScreen] = useState("flex");
   const [valueRegisterScreen, setValueRegisterScreen] = useState("flex");
   const [dataBase, setDataBase] = useState([]);
+  const [vehicleToEdit, setVehicleToEdit] = useState({});
   const navigation = useNavigation();
 
   function login() {
@@ -45,6 +46,7 @@ function AuthProvider({ children }) {
     }
   };
 
+
   return (
     <AuthContext.Provider
       value={{
@@ -57,6 +59,8 @@ function AuthProvider({ children }) {
         dataBase,
         setDataBase,
         getData,
+        vehicleToEdit,
+        setVehicleToEdit,
       }}
     >
       {children}

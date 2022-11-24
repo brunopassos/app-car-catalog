@@ -3,7 +3,6 @@ import { CarItem } from "../CarItem";
 import { useEffect, useContext } from "react";
 import { Api } from "../../service/api";
 import { AuthContext } from "../../context/auth";
-import Home from "../../pages/Home";
 
 export default () => {
   const { dataBase, setDataBase, getData, isLoggedin } = useContext(AuthContext);
@@ -28,7 +27,7 @@ export default () => {
 
   useEffect(() => {
     fetchData();
-  }, [isLoggedin, dataBase]);
+  }, [dataBase]);
 
   const renderItem = ({ item }) => {
     return <CarItem {...item} />;

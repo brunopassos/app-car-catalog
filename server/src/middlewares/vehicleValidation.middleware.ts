@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { AppError, handleError } from "../errors/appError";
 import vehicleSchema from "../schemas/vehicles/vehicle.schema";
 
 const vehicleValidationMiddleware = async (
