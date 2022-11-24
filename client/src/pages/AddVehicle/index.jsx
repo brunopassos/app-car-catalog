@@ -27,7 +27,7 @@ const AddVehicleScreen = () => {
 
   const navigation = useNavigation();
 
-  const { getData, vehicleToEdit } = useContext(AuthContext);
+  const { getData, vehicleToEdit, fetchData } = useContext(AuthContext);
 
   const {
     control,
@@ -64,7 +64,7 @@ const AddVehicleScreen = () => {
       headers: {
         Authorization: token,
       },
-    })
+    }).then(() => fetchData())
       .then((_) => navigation.navigate("Home"))
       .catch((err) => console.error(err));
   };
