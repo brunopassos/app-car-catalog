@@ -19,6 +19,8 @@ import * as ImagePicker from "expo-image-picker";
 
 import { AuthContext } from "../../context/auth";
 
+import { Api } from "../../service/api";
+
 export const CarItem = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [carModalVisible, setCarModalVisible] = useState(false);
@@ -60,9 +62,11 @@ export const CarItem = (props) => {
     }
   };
 
-  function removeCar() {
-    console.log("removed");
-  }
+  const removeCar = async (vehicle) => {
+    Api.delete(`/vehicles/${vehicle.id}`)
+      .then()
+      .catch((err) => console.error(err));
+  };
 
   function editCar() {
     console.log("edited");
@@ -94,7 +98,7 @@ export const CarItem = (props) => {
           </Pressable>
           <TouchableOpacity
             style={styles.logoutButton}
-            onPress={() => removeCar()}
+            onPress={() => removeCar(props)}
           >
             <Text>Remover</Text>
           </TouchableOpacity>
@@ -105,10 +109,7 @@ export const CarItem = (props) => {
           animationType="slide"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-          }}
+          
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -247,7 +248,7 @@ export const CarItem = (props) => {
                 />
                 <View style={styles.btnsModal}>
                   <TouchableOpacity
-                    onPress={() => editCar()}
+                    onPress={() => editCar(props)}
                     style={styles.button}
                   >
                     <Text>Confirmar</Text>

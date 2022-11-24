@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
-  View,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -13,6 +12,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "../../components/Button";
 import * as ImagePicker from "expo-image-picker";
+import { Api } from "../../service/api";
+import { AuthContext } from "../../context/auth";
+import { useNavigation } from "@react-navigation/native";
 
 const schema = yup.object({
   name: yup.string().required("O nome não pode ser vazio."),
@@ -22,6 +24,11 @@ const schema = yup.object({
 });
 
 const AddVehicleScreen = () => {
+
+  const navigation = useNavigation();
+
+  const { getData } = useContext(AuthContext);
+
   const {
     control,
     handleSubmit,
@@ -30,9 +37,26 @@ const AddVehicleScreen = () => {
     resolver: yupResolver(schema),
   });
 
-  function onSubmit(data) {
-    console.log(data);
-  }
+ 
+  const onSubmit = async (data) => {
+    const token = await getData();
+
+    const res = await Api.get("/users/me", {
+      headers: {
+        Authorization: token,
+      },
+    });
+    data.user = res.data;
+    data.imageLink = "teste"
+
+    await Api.post("/vehicles", data, {
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((_) => navigation.navigate("Home"))
+      .catch((err) => console.error(err));
+  };
 
   const [image, setImage] = useState(null);
 
@@ -44,8 +68,8 @@ const AddVehicleScreen = () => {
       quality: 1,
     });
     const img = result.assets[0].uri;
-    console.log(img.substring(5));
-    console.log(result);
+    // console.log(img.substring(5));
+    // console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -184,7 +208,6 @@ const AddVehicleScreen = () => {
         />
 
         <Button labelButton={"Cadastrar"} onPress={handleSubmit(onSubmit)} />
-
       </ScrollView>
     </>
   );

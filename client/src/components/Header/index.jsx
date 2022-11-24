@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import logo from "../../assets/logo.png";
-import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/auth";
 
 export default function Header() {
-  const navigation = useNavigation();
   const { isLoggedin, logout } = useContext(AuthContext);
 
   return !isLoggedin ? (
