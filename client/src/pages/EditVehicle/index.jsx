@@ -21,13 +21,14 @@ const schema = yup.object({
   name: yup.string().required("O nome não pode ser vazio."),
   brand: yup.string().required("A marca não pode ser vazia."),
   model: yup.string().required("O modelo não pode ser vazio."),
-  //   imageLink: yup.string().required("A foto não pode ser vazio."),
+  // imageLink: yup.string().required("A foto não pode ser vazio."),
 });
 
 const EditVehicleScreen = () => {
+  let jsonResponse = "";
   const navigation = useNavigation();
 
-  const { getData, vehicleToEdit, setDataBase } = useContext(AuthContext);
+  const { getData, vehicleToEdit, fetchData } = useContext(AuthContext);
 
   const {
     control,
@@ -49,25 +50,10 @@ const EditVehicleScreen = () => {
   });
 
   const onSubmit = async (data) => {
-    const token = await getData();
     
-    const fetchData = async () => {
-      const token = await getData();
+    const token = await getData();
 
-      if (!token) {
-        Api.get("/vehicles")
-          .then((res) => setDataBase(res.data))
-          .catch((err) => console.log(err));
-      } else {
-        Api.get("/vehicles/me", {
-          headers: {
-            Authorization: token,
-          },
-        })
-          .then((res) => setDataBase(res.data))
-          .catch((err) => console.error(err));
-      }
-    };
+    data.imageLink = image;
 
     const res = await Api.patch(`/vehicles/${vehicleToEdit.id}`, data, {
       headers: {
@@ -84,6 +70,7 @@ const EditVehicleScreen = () => {
   const [image, setImage] = useState("");
 
   const handleVehicleImage = async () => {
+    
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -109,6 +96,7 @@ const EditVehicleScreen = () => {
     uploadData.append("upload_preset", "app-car-catalog");
     uploadData.append("cloud_name", "div9ttrp8");
 
+    
     try {
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/div9ttrp8/upload",
@@ -121,11 +109,12 @@ const EditVehicleScreen = () => {
         }
       );
 
-      const jsonResponse = await response.json();
-      setImage(jsonResponse.secure_url);
+      jsonResponse = await response.json();
+      
     } catch (error) {
       console.log(error);
     }
+    setImage(jsonResponse.secure_url);
   };
 
   return (
@@ -181,11 +170,17 @@ const EditVehicleScreen = () => {
           control={control}
           name="imageLink"
           render={({ field: { onChange, value } }) => (
-            <TouchableOpacity onPress={pickImage} style={styles.input}>
+            <TouchableOpacity
+              onPress={() => handleVehicleImage()}
+              style={styles.input}
+            >
               <Text style={styles.addPhoto}>Adicionar Foto</Text>
             </TouchableOpacity>
           )}
         />
+        {/* {image === "" && (
+          <Text style={styles.errorMessage}>{errors.imageLink?.message}</Text>
+        )} */}
         <Controller
           control={control}
           name="year"

@@ -22,7 +22,7 @@ const schema = yup.object({
   name: yup.string().required("O nome não pode ser vazio."),
   brand: yup.string().required("A marca não pode ser vazia."),
   model: yup.string().required("O modelo não pode ser vazio."),
-  //   imageLink: yup.string().required("A foto não pode ser vazio."),
+  imageLink: yup.string().required("A foto não pode ser vazio."),
 });
 
 const AddVehicleScreen = () => {
@@ -178,6 +178,9 @@ const AddVehicleScreen = () => {
             </TouchableOpacity>
           )}
         />
+        {image === "" && (
+          <Text style={styles.errorMessage}>{errors.imageLink?.message}</Text>
+        )}
         <Controller
           control={control}
           name="year"
