@@ -5,29 +5,7 @@ import { Api } from "../../service/api";
 import { AuthContext } from "../../context/auth";
 
 export default () => {
-  const { dataBase, setDataBase, getData, isLoggedin } = useContext(AuthContext);
-
-  const fetchData = async () => {
-    const token = await getData();
-
-    if (!token) {
-      Api.get("/vehicles")
-        .then((res) => setDataBase(res.data))
-        .catch((err) => console.log(err));
-    } else {
-      Api.get("/vehicles/me", {
-        headers: {
-          Authorization: token,
-        },
-      })
-        .then((res) => setDataBase(res.data))
-        .catch((err) => console.error(err));
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [dataBase]);
+  const { dataBase } =    useContext(AuthContext);  
 
   const renderItem = ({ item }) => {
     return <CarItem {...item} />;

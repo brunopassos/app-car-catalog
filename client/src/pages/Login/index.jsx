@@ -28,7 +28,7 @@ const schema = yup.object({
 });
 
 const LoginScreen = () => {
-  const { isLoggedIn, login } = useContext(AuthContext);
+  const { login, storeData, fetchData, orderData } = useContext(AuthContext);
 
   const navigation = useNavigation();
   const {
@@ -39,29 +39,15 @@ const LoginScreen = () => {
     resolver: yupResolver(schema),
   });
 
-  const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem("@userToken", value);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const getData = async () => {
-    try {
-      return await AsyncStorage.getItem("@userToken");
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   function onSubmit(data) {
     Api.post("/users/login", data)
       .then((res) => {
         storeData(res.data.token);
         login();
-        navigation.navigate("Home");
       })
+      .then(() => fetchData())
+      .then(() => orderData())
+      .then(() => navigation.navigate("Home"))
       .catch((err) => console.error(err));
   }
 

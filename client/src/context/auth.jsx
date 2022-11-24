@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Api } from "../service/api";
 
 export const AuthContext = createContext({});
 
@@ -21,16 +22,21 @@ function AuthProvider({ children }) {
   }
 
   function logout() {
+    removeData();
     setDataBase([]);
+    fetchData();
+    orderData();
     setIsLoggedin(false);
     setValueAddVehicle("none");
     setValueLoginScreen("flex");
     setValueRegisterScreen("flex");
     navigation.navigate("Home");
-    removeData();
   }
 
   const removeData = async () => {
+    console.log("---------");
+    console.log("Token removido");
+    console.log("---------");
     try {
       return await AsyncStorage.removeItem("@userToken");
     } catch (e) {
@@ -46,6 +52,56 @@ function AuthProvider({ children }) {
     }
   };
 
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("@userToken", value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  function orderData() {
+    console.log("---------");
+    console.log("order data");
+    
+    const filteredData = dataBase.sort(function (x, y) {
+      return x.value - y.value;
+    });
+    console.log(filteredData)
+    console.log("---------");
+    console.log("---------");
+    console.log("DataBase");
+    setDataBase(filteredData);
+    console.log(dataBase)
+    console.log("---------");
+  }
+
+  const fetchData = async () => {
+    console.log("---------");
+    console.log("fetchData");
+    console.log("---------");
+    const token = await getData();
+
+    if (!token) {
+      Api.get("/vehicles")
+        .then((res) => setDataBase(res.data))
+        .catch((err) => console.log(err));
+    } else {
+      Api.get("/vehicles/me", {
+        headers: {
+          Authorization: token,
+        },
+      })
+        .then((res) => setDataBase(res.data))
+        .then(() => {
+          console.log("---------");
+          console.log("Console.log: dataBase");
+          console.log(dataBase)
+          console.log("---------");
+        })
+        .catch((err) => console.error(err));
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -61,6 +117,9 @@ function AuthProvider({ children }) {
         getData,
         vehicleToEdit,
         setVehicleToEdit,
+        storeData,
+        orderData,
+        fetchData,
       }}
     >
       {children}
