@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import LoginScreen from "../pages/Login";
 import RegisterScreen from "../pages/Register";
 import AddVehicleScreen from "../pages/AddVehicle";
+import EditVehicleScreen from "../pages/EditVehicle";
 import { AuthContext } from "../context/auth";
 
 const Drawer = createDrawerNavigator();
@@ -17,6 +18,7 @@ export default function Routes() {
       <Drawer.Screen options={{drawerItemStyle: { display: valueLoginScreen }}} name="Login" component={LoginScreen} />
       <Drawer.Screen options={{drawerItemStyle: { display: valueRegisterScreen }}} name="Registrar" component={RegisterScreen} />
       <Drawer.Screen options={{drawerItemStyle: { display: valueAddVehicle }}} name="Adicionar Veículo" component={AddVehicleScreen} />
+      <Drawer.Screen options={{drawerItemStyle: { display: "none" }}} name="Editar Veículo" component={EditVehicleScreen} />
     </Drawer.Navigator>
   );
 }

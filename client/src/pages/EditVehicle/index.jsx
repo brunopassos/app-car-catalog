@@ -16,6 +16,8 @@ import { Api } from "../../service/api";
 import { AuthContext } from "../../context/auth";
 import { useNavigation } from "@react-navigation/native";
 
+
+
 const schema = yup.object({
   name: yup.string().required("O nome não pode ser vazio."),
   brand: yup.string().required("A marca não pode ser vazia."),
@@ -23,11 +25,10 @@ const schema = yup.object({
   //   imageLink: yup.string().required("A foto não pode ser vazio."),
 });
 
-const AddVehicleScreen = () => {
-
+const EditVehicleScreen = () => {
   const navigation = useNavigation();
 
-  const { getData, vehicleToEdit } = useContext(AuthContext);
+  const { getData, vehicleToEdit, fetchData } = useContext(AuthContext);
 
   const {
     control,
@@ -43,31 +44,26 @@ const AddVehicleScreen = () => {
       city: vehicleToEdit.city,
       state: vehicleToEdit.state,
       value: vehicleToEdit.value,
-      km: vehicleToEdit.km    
+      km: vehicleToEdit.km,
     },
     resolver: yupResolver(schema),
   });
 
- 
   const onSubmit = async (data) => {
     const token = await getData();
 
-    const res = await Api.get("/users/me", {
-      headers: {
-        Authorization: token,
-      },
-    });
-    data.user = res.data;
-    data.imageLink = "teste"
-
-    await Api.post("/vehicles", data, {
+    const res = await Api.patch(`/vehicles/${vehicleToEdit.id}`, data, {
       headers: {
         Authorization: token,
       },
     })
-      .then((_) => navigation.navigate("Home"))
+      .then(() => {
+        fetchData();
+      })
+      .then(() => navigation.navigate("Home"))
       .catch((err) => console.error(err));
   };
+
 
   const [image, setImage] = useState(null);
 
@@ -218,13 +214,13 @@ const AddVehicleScreen = () => {
           )}
         />
 
-        <Button labelButton={"Cadastrar"} onPress={handleSubmit(onSubmit)} />
+        <Button labelButton={"Editar"} onPress={handleSubmit(onSubmit)} />
       </ScrollView>
     </>
   );
 };
 
-export default AddVehicleScreen;
+export default EditVehicleScreen;
 
 const styles = StyleSheet.create({
   mainContainer: {
