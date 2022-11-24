@@ -34,9 +34,6 @@ function AuthProvider({ children }) {
   }
 
   const removeData = async () => {
-    console.log("---------");
-    console.log("Token removido");
-    console.log("---------");
     try {
       return await AsyncStorage.removeItem("@userToken");
     } catch (e) {
@@ -61,25 +58,14 @@ function AuthProvider({ children }) {
   };
 
   function orderData() {
-    console.log("---------");
-    console.log("order data");
     
     const filteredData = dataBase.sort(function (x, y) {
       return x.value - y.value;
     });
-    console.log(filteredData)
-    console.log("---------");
-    console.log("---------");
-    console.log("DataBase");
     setDataBase(filteredData);
-    console.log(dataBase)
-    console.log("---------");
   }
 
   const fetchData = async () => {
-    console.log("---------");
-    console.log("fetchData");
-    console.log("---------");
     const token = await getData();
 
     if (!token) {
@@ -93,12 +79,6 @@ function AuthProvider({ children }) {
         },
       })
         .then((res) => setDataBase(res.data))
-        .then(() => {
-          console.log("---------");
-          console.log("Console.log: dataBase");
-          console.log(dataBase)
-          console.log("---------");
-        })
         .catch((err) => console.error(err));
     }
   };

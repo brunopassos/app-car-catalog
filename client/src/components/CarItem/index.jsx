@@ -8,14 +8,8 @@ import {
   Alert,
   Modal,
   Pressable,
-  TextInput,
 } from "react-native";
-
-import { useForm, Controller } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { ScrollView } from "react-native-gesture-handler";
-import * as ImagePicker from "expo-image-picker";
 
 import { AuthContext } from "../../context/auth";
 
@@ -23,33 +17,31 @@ import { Api } from "../../service/api";
 
 import { useNavigation } from "@react-navigation/native";
 
-
 export const CarItem = (props) => {
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
   const [carModalVisible, setCarModalVisible] = useState(false);
-  const { isLoggedin, getData, setVehicleToEdit, } = useContext(AuthContext);
+  const { isLoggedin, getData, setVehicleToEdit } = useContext(AuthContext);
 
   const removeCar = async (vehicle) => {
     const token = await getData();
     Api.delete(`/vehicles/${vehicle.id}`, {
-      headers:{
+      headers: {
         Authorization: token,
-      }
+      },
     })
       .then()
       .catch((err) => console.error(err));
   };
 
-  function editVehicle(){
+  function editVehicle() {
     setVehicleToEdit(props);
     navigation.navigate("Editar Veículo");
   }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => setCarModalVisible(true)}>
-        <Image style={styles.img} source={props.imageLink} />
+      <TouchableOpacity styles={styles.imageContainer} onPress={() => setCarModalVisible(true)}>
+        <Image style={styles.img} source={{ uri: props.imageLink }} />
       </TouchableOpacity>
       <Text style={styles.textTitleStyle}>
         {props.brand} {props.name} {props.model}
@@ -77,168 +69,6 @@ export const CarItem = (props) => {
           </TouchableOpacity>
         </View>
       )}
-
-
-
-      {/* <View style={styles.centeredView}>
-        <Modal animationType="slide" transparent={true} visible={modalVisible}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <ScrollView contentContainerStyle={styles.mainContainer}>
-                <Controller
-                  control={control}
-                  name="name"
-                  render={({ field: { onChange, value } }) => (
-                    <TextInput
-                      onChangeText={onChange}
-                      style={styles.input}
-                      value={value}
-                      placeholder={"Nome (Obrigadtório)"}
-                    />
-                  )}
-                />
-                {errors.name && (
-                  <Text style={styles.errorMessage}>
-                    {errors.name?.message}
-                  </Text>
-                )}
-                <Controller
-                  control={control}
-                  name="brand"
-                  render={({ field: { onChange, value } }) => (
-                    <TextInput
-                      onChangeText={onChange}
-                      style={styles.input}
-                      value={value}
-                      placeholder={"Marca (Obrigatório)"}
-                    />
-                  )}
-                />
-                {errors.brand && (
-                  <Text style={styles.errorMessage}>
-                    {errors.brand?.message}
-                  </Text>
-                )}
-                <Controller
-                  control={control}
-                  name="model"
-                  render={({ field: { onChange, value } }) => (
-                    <TextInput
-                      onChangeText={onChange}
-                      style={styles.input}
-                      value={value}
-                      placeholder={"Modelo (Obrigatório)"}
-                    />
-                  )}
-                />
-                {errors.model && (
-                  <Text style={styles.errorMessage}>
-                    {errors.model?.message}
-                  </Text>
-                )}
-                <Controller
-                  control={control}
-                  name="imageLink"
-                  render={({ field: { onChange, value } }) => (
-                    <TouchableOpacity onPress={pickImage} style={styles.input}>
-                      <Text style={styles.addPhoto}>Adicionar Foto</Text>
-                    </TouchableOpacity>
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="year"
-                  render={({ field: { onChange, value } }) => (
-                    <TextInput
-                      onChangeText={onChange}
-                      style={styles.input}
-                      value={value}
-                      placeholder={"Ano"}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="km"
-                  render={({ field: { onChange, value } }) => (
-                    <TextInput
-                      onChangeText={onChange}
-                      style={styles.input}
-                      value={value}
-                      placeholder={"Km"}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="color"
-                  render={({ field: { onChange, value } }) => (
-                    <TextInput
-                      onChangeText={onChange}
-                      style={styles.input}
-                      value={value}
-                      placeholder={"Cor"}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="city"
-                  render={({ field: { onChange, value } }) => (
-                    <TextInput
-                      onChangeText={onChange}
-                      style={styles.input}
-                      value={value}
-                      placeholder={"Cidade"}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="state"
-                  render={({ field: { onChange, value } }) => (
-                    <TextInput
-                      onChangeText={onChange}
-                      style={styles.input}
-                      value={value}
-                      placeholder={"Estado"}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="value"
-                  render={({ field: { onChange, value } }) => (
-                    <TextInput
-                      onChangeText={onChange}
-                      style={styles.input}
-                      value={value}
-                      placeholder={"Valor"}
-                    />
-                  )}
-                />
-                <View style={styles.btnsModal}>
-                  <TouchableOpacity
-                    onPress={()=>handleSubmit(onSubmit())}
-                    style={styles.button}
-                  >
-                    <Text>Confirmar</Text>
-                  </TouchableOpacity>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)}
-                  >
-                    <Text style={styles.textStyle}>Cancelar</Text>
-                  </Pressable>
-                </View>
-              </ScrollView>
-            </View>
-          </View>
-        </Modal>
-      </View> */}
-
-
-
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
@@ -296,6 +126,8 @@ const styles = StyleSheet.create({
   img: {
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
+    width: "100%",
+    height: 200
   },
   textTitleStyle: {
     fontSize: 16,
@@ -342,8 +174,8 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    borderWidth:1,
-    borderColor: "black"
+    borderWidth: 1,
+    borderColor: "black",
   },
   textStyle: {
     fontWeight: "bold",
@@ -378,4 +210,9 @@ const styles = StyleSheet.create({
     margin: 17,
     textAlign: "center",
   },
+  imageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%"
+  }
 });
