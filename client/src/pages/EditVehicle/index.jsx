@@ -16,8 +16,6 @@ import { Api } from "../../service/api";
 import { AuthContext } from "../../context/auth";
 import { useNavigation } from "@react-navigation/native";
 
-
-
 const schema = yup.object({
   name: yup.string().required("O nome não pode ser vazio."),
   brand: yup.string().required("A marca não pode ser vazia."),
@@ -28,7 +26,7 @@ const schema = yup.object({
 const EditVehicleScreen = () => {
   const navigation = useNavigation();
 
-  const { getData, vehicleToEdit, fetchData } = useContext(AuthContext);
+  const { getData, vehicleToEdit, setDataBase } = useContext(AuthContext);
 
   const {
     control,
@@ -51,6 +49,23 @@ const EditVehicleScreen = () => {
 
   const onSubmit = async (data) => {
     const token = await getData();
+    const fetchData = async () => {
+      const token = await getData();
+
+      if (!token) {
+        Api.get("/vehicles")
+          .then((res) => setDataBase(res.data))
+          .catch((err) => console.log(err));
+      } else {
+        Api.get("/vehicles/me", {
+          headers: {
+            Authorization: token,
+          },
+        })
+          .then((res) => setDataBase(res.data))
+          .catch((err) => console.error(err));
+      }
+    };
 
     const res = await Api.patch(`/vehicles/${vehicleToEdit.id}`, data, {
       headers: {
@@ -63,7 +78,6 @@ const EditVehicleScreen = () => {
       .then(() => navigation.navigate("Home"))
       .catch((err) => console.error(err));
   };
-
 
   const [image, setImage] = useState(null);
 
