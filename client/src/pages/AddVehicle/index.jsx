@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import Header from "../../components/Header";
@@ -15,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Api } from "../../service/api";
 import { AuthContext } from "../../context/auth";
 import { useNavigation } from "@react-navigation/native";
+import mime from "mime";
 
 const schema = yup.object({
   name: yup.string().required("O nome não pode ser vazio."),
@@ -24,7 +26,6 @@ const schema = yup.object({
 });
 
 const AddVehicleScreen = () => {
-
   const navigation = useNavigation();
 
   const { getData, vehicleToEdit, fetchData } = useContext(AuthContext);
@@ -43,12 +44,11 @@ const AddVehicleScreen = () => {
       city: vehicleToEdit.city,
       state: vehicleToEdit.state,
       value: vehicleToEdit.value,
-      km: vehicleToEdit.km    
+      km: vehicleToEdit.km,
     },
     resolver: yupResolver(schema),
   });
 
- 
   const onSubmit = async (data) => {
     const token = await getData();
 
@@ -57,33 +57,63 @@ const AddVehicleScreen = () => {
         Authorization: token,
       },
     });
-    data.user = res.data;
-    data.imageLink = "teste"
+    data.user = res;
+    data.imageLink = image;
 
     await Api.post("/vehicles", data, {
       headers: {
         Authorization: token,
       },
-    }).then(() => fetchData())
+    })
+      .then(() => fetchData())
       .then((_) => navigation.navigate("Home"))
       .catch((err) => console.error(err));
   };
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+  const handleVehicleImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    const img = result.assets[0].uri;
-    // console.log(img.substring(5));
-    // console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      uploadCloudinary(result.assets[0]);
+    }
+  };
+
+  const uploadCloudinary = async (imageData) => {
+    const uploadData = new FormData();
+
+    const uri = imageData.uri;
+    const type = mime.getType(imageData.uri);
+    const name = "nome";
+
+    const source = { uri, type, name };
+
+    uploadData.append("file", source);
+    uploadData.append("upload_preset", "app-car-catalog");
+    uploadData.append("cloud_name", "div9ttrp8");
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/div9ttrp8/upload",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+          body: uploadData,
+        }
+      );
+
+      const jsonResponse = await response.json();
+      setImage(jsonResponse.secure_url);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -140,7 +170,10 @@ const AddVehicleScreen = () => {
           control={control}
           name="imageLink"
           render={({ field: { onChange, value } }) => (
-            <TouchableOpacity onPress={pickImage} style={styles.input}>
+            <TouchableOpacity
+              onPress={() => handleVehicleImage()}
+              style={styles.input}
+            >
               <Text style={styles.addPhoto}>Adicionar Foto</Text>
             </TouchableOpacity>
           )}

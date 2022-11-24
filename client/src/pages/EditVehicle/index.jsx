@@ -15,6 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Api } from "../../service/api";
 import { AuthContext } from "../../context/auth";
 import { useNavigation } from "@react-navigation/native";
+import mime from "mime";
 
 const schema = yup.object({
   name: yup.string().required("O nome não pode ser vazio."),
@@ -49,6 +50,7 @@ const EditVehicleScreen = () => {
 
   const onSubmit = async (data) => {
     const token = await getData();
+    
     const fetchData = async () => {
       const token = await getData();
 
@@ -79,21 +81,50 @@ const EditVehicleScreen = () => {
       .catch((err) => console.error(err));
   };
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+  const handleVehicleImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    const img = result.assets[0].uri;
-    // console.log(img.substring(5));
-    // console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      uploadCloudinary(result.assets[0]);
+    }
+  };
+
+  const uploadCloudinary = async (imageData) => {
+    const uploadData = new FormData();
+
+    const uri = imageData.uri;
+    const type = mime.getType(imageData.uri);
+    const name = "nome";
+
+    const source = { uri, type, name };
+
+    uploadData.append("file", source);
+    uploadData.append("upload_preset", "app-car-catalog");
+    uploadData.append("cloud_name", "div9ttrp8");
+
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/div9ttrp8/upload",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+          body: uploadData,
+        }
+      );
+
+      const jsonResponse = await response.json();
+      setImage(jsonResponse.secure_url);
+    } catch (error) {
+      console.log(error);
     }
   };
 
