@@ -58,11 +58,9 @@ function AuthProvider({ children }) {
   };
 
   function orderData() {
-    
-    const filteredData = dataBase.sort(function (x, y) {
-      return x.value - y.value;
-    });
-    setDataBase(filteredData);
+    let dados = dataBase
+    dados.sort((a,b) => a.value - b.value);   
+    setDataBase(dados);
   }
 
   const fetchData = async () => {
@@ -79,6 +77,7 @@ function AuthProvider({ children }) {
         },
       })
         .then((res) => setDataBase(res.data))
+        .then(() => orderData())
         .catch((err) => console.error(err));
     }
   };

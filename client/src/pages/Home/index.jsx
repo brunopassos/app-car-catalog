@@ -8,17 +8,20 @@ import { AuthContext } from "../../context/auth";
 
 export default function Home() {
 
-  const { fetchData } = useContext(AuthContext);
+  const { fetchData, orderData, dataBase } = useContext(AuthContext);
 
   useEffect(() => {
-    fetchData();
+    fetchData()
   }, []);
+
+  useEffect(() => {
+    orderData()
+  }, [dataBase]);
 
 
   return (
     <View style={{ flex: 1 }}>
       <Header />
-      <SearchBar />
       <CarList />
     </View>
   );
