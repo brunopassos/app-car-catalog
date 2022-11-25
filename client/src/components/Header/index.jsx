@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    // marginTop: 30
   },
   headerSecondary: {
     backgroundColor: "#fff",
@@ -34,7 +33,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     width: "100%",
     flexDirection: "row",
-    marginTop: 30
   },
   logo: {
     width: 150,
