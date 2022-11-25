@@ -16,7 +16,7 @@ const Drawer = createDrawerNavigator();
 export default function Routes() {
     const {valueAddVehicle, valueLoginScreen, valueRegisterScreen} = useContext(AuthContext);
   return (
-    <Drawer.Navigator screenOptions={{drawerType: "slide", headerShown: false, }} initialRouteName="Home">
+    <Drawer.Navigator screenOptions={{drawerType: "slide", headerShown: true,  }} initialRouteName="Home">
       <Drawer.Screen options={{drawerIcon: ({size, color}) => (<Entypo name="home" size={size} color={color} />)}} name="Home" component={Home} />
       <Drawer.Screen options={{drawerItemStyle: { display: valueLoginScreen }, drawerIcon: ({size, color}) => (<Entypo name="login" size={size} color={color} />)}} name="Login" component={LoginScreen} />
       <Drawer.Screen options={{drawerItemStyle: { display: valueRegisterScreen}, drawerIcon: ({size, color}) => (<Entypo name="add-user" size={size} color={color} />)}} name="Registrar" component={RegisterScreen} />
