@@ -25,7 +25,6 @@ function AuthProvider({ children }) {
     removeData();
     setDataBase([]);
     fetchData();
-    orderData();
     setIsLoggedin(false);
     setValueAddVehicle("none");
     setValueLoginScreen("flex");
