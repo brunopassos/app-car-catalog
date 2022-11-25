@@ -27,7 +27,7 @@ const schema = yup.object({
 });
 
 const LoginScreen = () => {
-  const { login, storeData, fetchData, orderData } = useContext(AuthContext);
+  const { login, storeData, fetchData } = useContext(AuthContext);
 
   const navigation = useNavigation();
   const {
@@ -45,7 +45,6 @@ const LoginScreen = () => {
         login();
       })
       .then(() => fetchData())
-      .then(() => orderData())
       .then(() => navigation.navigate("Home"))
       .catch((err) => console.error(err));
   }
@@ -88,7 +87,7 @@ const LoginScreen = () => {
         <Button labelButton={"Logar"} onPress={handleSubmit(onSubmit)} />
 
         <TouchableOpacity
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => navigation.navigate("Registrar")}
           style={styles.button}
         >
           <Text>Não tem uma conta? Cadastre-se!</Text>

@@ -76,7 +76,6 @@ function AuthProvider({ children }) {
         },
       })
         .then((res) => setDataBase(res.data))
-        .then(() => orderData())
         .catch((err) => console.error(err));
     }
   };
