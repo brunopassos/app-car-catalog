@@ -30,6 +30,7 @@ const AddVehicleScreen = () => {
 
   const { getData, vehicleToEdit, fetchData } = useContext(AuthContext);
 
+
   const {
     control,
     handleSubmit,
@@ -50,9 +51,6 @@ const AddVehicleScreen = () => {
   });
 
   const onSubmit = async (data) => {
-
-    console.log("onsubmit")
-
     const token = await getData();
 
     const res = await Api.get("/users/me", {
