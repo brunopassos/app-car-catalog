@@ -1,65 +1,84 @@
-## O projeto abaixo faz parte de um teste técnico que estou participando.
+[PT-BR / EN]
 
-# Desafio
+## [PT-BR]
 
-Desenvolver um sistema com um catálogo de veículos a venda.
+<h1>App Car Catalog</h1> 
 
-## Front-end
-
-## Stack Base
-- React Native
-
-## Regras de negócio
-- Página de cadastro informando username e senha
-- Página de login informando username e senha
-- Ao fazer login, é exibida a lista de carros do usuário e o menu exibe a opção para adicionar um novo carro e fazer logout;
-- Cada carro na listagem do usuário terá um botão para editar e outro para deletar;
-- Botão para ordenar os veículos;
-- Listagem com todos os carros a venda ordenada por valor (Menor para o maior);   
-- Barra de filtro; 
-- Menu lateral deve ter as opções de Login e Registro;
-- Form que pode ser usado de exemplo tanto para login quanto para criação de conta;
- 
--------------------------
-
-## Backend
-
-##Stack base
-- Servidor utilizando Node.js + Typescript
-- Banco de dados PostfreSQL + README de como utilizar
-
-## Arquitetura
-
-## Tabela Users:
-- Id -> PK
-- Username
-- password
-
-## Tabela vehicles:
-- Id -> PK
-- Name
-- Brand
-- Model
-- Year
-- Km
-- Color
-- City
-- Value
-- Photo
-
-## Regras de negócio
-- Para cadastro dos veículos, deverá ter um login administrativo com token JWT;
-- O admin só pode ser acessado se o usuário conseguir se autenticar;
-- Todas as requisições privadas precisam de um token válido gerado no login para funcionamento da requisição;
-- O cadastro de veículos deverá ter listagem, criação, edição e deleção de registros;
-- O backend deverá ser uma API Rest;
-- Todos os dados devem ser persistidos no banco de dados;
-- Deleção de carro aparece um botão na listagem dos carros do usuário;
-- Listagem ocorre ao entrar no perfil do usuário;
-- Form para criação e edição de carro similar a tela abaixo:
- 
- 
+Você pode assistir a uma demonstração clicando [aqui](https://youtu.be/wtwQAAD6iH4) | You can see a demonstration by clicking [here](https://youtu.be/wtwQAAD6iH4)
 
 
+Status: MVP finalizada - Requer atualizações - Em andamento ⚠️
+
+## Sobre este projeto
+
+Esse é um projeto full stack que faz parte de um teste técnico que estou participando. O objetivo é construir uma aplicação que funciona como um catálogo de carros a venda.
+
+## Instalação 
+
+O que acha de testar a nossa aplicação? Siga os passos abaixo:
+
++ Instalação do PostgreSQL (LEIA COM ATENÇÃO ANTES DE INICIAR)
+
+    1) Faça o download do PostgreSQL: (https://www.enterprisedb.com/downloads/postgres-postgresql-downloads).
+    2) Execute o arquivo de instalação. Durante o processo, salve em um bloco de notas o caminho de onde a aplicação está sendo intalada. Selecione todos os componentes para serem instalados. Crie uma senha de superusuário. Marque a porta 5432 como porta padrão. No final do processo, o instalador deixa uma checkbox marcada que levará para as configurações do mesmo. Por ora desmarque a opção e siga em frente. 
+
++ Configuração do PostgreSQL
+
+    1) Crie uma variável de ambiente com o caminho que você copiou durante a instalação. Apenas adicione ao final "\bin". Ficará algo parecido com isso: ```C:\Program Files\PostgreSQL\14\bin```.
+    2) 
 
 
++ Aplicação
+
+    1) Faça o clone da branch ```main``` para o teu computador.
+    2) Abra a aplicação na sua IDE de preferência.
+    3) O projeto foi dividido em duas pastas: client e server.
+    4) Via terminal, acesse a pasta "server": ```cd server/```
+    5) No terminal, rode o comando ```yarn``` para instalar todas as dependências.
+    6) Execute o comando ```yarn typeorm migration:generate src/migrations/createTables -d src/data-source.ts``` para gerar as migrações.
+    7) Execute o comando ```yarn typeorm migration:run -d src/data-source.ts``` para rodar as migrações.
+    8) Após a instalação, execute o comando ```yarn dev```
+    9) Abra um sergundo terminal, acesse a pasta "client": ```cd client/```
+    10) No terminal, rode o comando ```yarn``` para instalar todas as dependências.
+    11) Após a instalação, execute o comando ```expo start```
+    12) Faça o download no seu celular do aplicativo  "Expo go": (https://play.google.com/store/apps/details?id=host.exp.exponent&referrer=www&pli=1)
+    13) Abra o App, leia o QR code que apareceu no terminal após executar o comando ```expo start``` e aguarde o download.
+
+
+## Funcionalidades
+
+- Usuário não logado
+  - Tem acesso a todos os veículos que estão cadastrados.
+
+- Registro de usuário
+  
+- Login
+
+- Usuário logado pode cadastrar um veículo, listar, editar e remover os próprios veículos.
+
+
+## Stack
+
++ Frontend
+
+    + React-Native com JavaScript
+    + Context Api
+    + native-picker
+    + navigation/drawer
+    + Yup
+    + expo-image-picker
+    + Hook-form
+    + Axios
+
++ Backend
+
+    + Node.js com TypeScript
+    + PostgreSQL
+    + Express
+    + jsonwebtoken
+    + TypeORM
+    + uuid
+    + Yup
+
+
+## [EN]
