@@ -56,7 +56,7 @@ export const CarItem = (props) => {
       {isLoggedin && (
         <View style={styles.buttonsView}>
           <Pressable
-            style={[styles.button, styles.buttonOpen]}
+            style={styles.button}
             onPress={() => editVehicle()}
           >
             <Text style={styles.textStyle}>Editar</Text>
@@ -69,39 +69,52 @@ export const CarItem = (props) => {
           </TouchableOpacity>
         </View>
       )}
+
+
+
+
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
           transparent={true}
           visible={carModalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setCarModalVisible(!carModalVisible);
-          }}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <ScrollView contentContainerStyle={styles.mainContainer}>
                 <View>
-                  <Image style={styles.img} source={props.imageLink} />
+                  <Image style={styles.imgModal} source={{ uri: props.imageLink }} />
                   <Text style={styles.textTitleStyle}>
                     {props.brand} {props.name} {props.model}
                   </Text>
                   <Text style={styles.textDataStyle}>
-                    {props.year} - {props.km} km - {props.city}-{props.state}
+                    {props.year} - {props.km} km
                   </Text>
-                  <Text style={styles.textValueStyle}>
+                  <Text style={styles.textValueStyleModal}>
                     R${" "}
                     {props.value
                       .toFixed(2)
                       .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
                   </Text>
+                  <Text style={styles.textPlaceStyleModel}>
+                    {props.city}-{props.state}
+                  </Text>
                 </View>
                 <View>
-                  <Text>Detalhes</Text>
+                  <Text style={styles.textDetails}>Características</Text>
+                  <View>
+                    <Text style={styles.detailsModalText}>Nome: {props.name}</Text>
+                    <Text style={styles.detailsModalText}>Modelo: {props.model}</Text>
+                    <Text style={styles.detailsModalText}>Montadora: {props.brand}</Text>
+                    <Text style={styles.detailsModalText}>Ano: {props.year}</Text>
+                    <Text style={styles.detailsModalText}>KM: {props.km} km</Text>
+                    <Text style={styles.detailsModalText}>Cor: {props.color}</Text>
+                    <Text style={styles.detailsModalText}>Cidade: {props.city}</Text>
+                    <Text style={styles.detailsModalText}>Estado: <Text style={styles.stateModal}>{props.state}</Text></Text>
+                  </View>
                 </View>
                 <Pressable
-                  style={[styles.button, styles.buttonClose]}
+                  style={[styles.button]}
                   onPress={() => setCarModalVisible(!carModalVisible)}
                 >
                   <Text style={styles.textStyle}>Fechar</Text>
@@ -143,11 +156,27 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     margin: 2,
   },
+  textPlaceStyleModel: {
+    fontSize: 14,
+    color: "#898989",
+    fontWeight: "500",
+    paddingLeft: 15,
+    margin: 2,
+    paddingBottom: 50
+  },
   textValueStyle: {
     fontSize: 20,
     color: "#3374db",
     fontWeight: "500",
     paddingLeft: 15,
+    margin: 2,
+  },
+  textValueStyleModal: {
+    fontSize: 20,
+    color: "#3374db",
+    fontWeight: "500",
+    paddingLeft: 15,
+    paddingBottom: 50,
     margin: 2,
   },
   buttonsView: {
@@ -172,10 +201,16 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 8,
     padding: 10,
     borderWidth: 1,
     borderColor: "black",
+  },
+  logoutButton: {
+    borderRadius: 8,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "red",
   },
   textStyle: {
     fontWeight: "bold",
@@ -214,5 +249,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%"
+  },
+  imgModal:{
+    width: 200,
+    height: 200,
+    marginBottom: 20,
+  },
+  textDetails: {
+    fontWeight: "500",
+    fontSize: 20,
+  },
+  stateModal: {
+    textTransform:"uppercase",
+  },
+  detailsModalText: {
+    margin: 10
   }
 });
