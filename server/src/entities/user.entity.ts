@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 import {v4 as uuid} from "uuid";
 import { Vehicle } from "./vehicle.entity";
-import { Exclude } from "class-transformer";
 
 @Entity("users")
 export class User{
@@ -12,7 +11,6 @@ export class User{
     email: string
 
     @Column()
-    @Exclude()
     password: string
 
     @OneToMany(() => Vehicle, vehicle => vehicle.user)
