@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    marginTop: 30
+    // marginTop: 30
   },
   headerSecondary: {
     backgroundColor: "#fff",
