@@ -14,6 +14,7 @@ import Button from "../../components/Button";
 import { Api } from "../../service/api";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/auth";
+import Toast from "react-native-toast-message";
 
 const schema = yup.object({
   email: yup
@@ -28,6 +29,13 @@ const schema = yup.object({
 
 const LoginScreen = () => {
   const { login, storeData, fetchData } = useContext(AuthContext);
+
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text2: "Seja bem vindo(a) 👋",
+    });
+  };
 
   const navigation = useNavigation();
   const {
@@ -45,6 +53,7 @@ const LoginScreen = () => {
         login();
       })
       .then(() => fetchData())
+      .then(() => showToast())
       .then(() => navigation.navigate("Home"))
       .catch((err) => console.error(err));
   }

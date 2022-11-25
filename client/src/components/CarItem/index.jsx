@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Alert,
   Modal,
   Pressable,
 } from "react-native";
@@ -17,10 +16,13 @@ import { Api } from "../../service/api";
 
 import { useNavigation } from "@react-navigation/native";
 
+import Toast from "react-native-toast-message";
+
 export const CarItem = (props) => {
   const navigation = useNavigation();
   const [carModalVisible, setCarModalVisible] = useState(false);
-  const { isLoggedin, getData, setVehicleToEdit, fetchData } = useContext(AuthContext);
+  const { isLoggedin, getData, setVehicleToEdit, fetchData } =
+    useContext(AuthContext);
 
   const removeCar = async (vehicle) => {
     const token = await getData();
@@ -30,6 +32,7 @@ export const CarItem = (props) => {
       },
     })
       .then(() => fetchData())
+      .then(() => showToast())
       .catch((err) => console.error(err));
   };
 
@@ -38,9 +41,19 @@ export const CarItem = (props) => {
     navigation.navigate("Editar Veículo");
   }
 
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text2: "Veículo removido com sucesso!",
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity styles={styles.imageContainer} onPress={() => setCarModalVisible(true)}>
+      <TouchableOpacity
+        styles={styles.imageContainer}
+        onPress={() => setCarModalVisible(true)}
+      >
         <Image style={styles.img} source={{ uri: props.imageLink }} />
       </TouchableOpacity>
       <Text style={styles.textTitleStyle}>
@@ -55,10 +68,7 @@ export const CarItem = (props) => {
 
       {isLoggedin && (
         <View style={styles.buttonsView}>
-          <Pressable
-            style={styles.button}
-            onPress={() => editVehicle()}
-          >
+          <Pressable style={styles.button} onPress={() => editVehicle()}>
             <Text style={styles.textStyle}>Editar</Text>
           </Pressable>
           <TouchableOpacity
@@ -70,9 +80,6 @@ export const CarItem = (props) => {
         </View>
       )}
 
-
-
-
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
@@ -83,7 +90,10 @@ export const CarItem = (props) => {
             <View style={styles.modalView}>
               <ScrollView contentContainerStyle={styles.mainContainer}>
                 <View>
-                  <Image style={styles.imgModal} source={{ uri: props.imageLink }} />
+                  <Image
+                    style={styles.imgModal}
+                    source={{ uri: props.imageLink }}
+                  />
                   <Text style={styles.textTitleStyle}>
                     {props.brand} {props.name} {props.model}
                   </Text>
@@ -103,14 +113,31 @@ export const CarItem = (props) => {
                 <View>
                   <Text style={styles.textDetails}>Características</Text>
                   <View>
-                    <Text style={styles.detailsModalText}>Nome: {props.name}</Text>
-                    <Text style={styles.detailsModalText}>Modelo: {props.model}</Text>
-                    <Text style={styles.detailsModalText}>Montadora: {props.brand}</Text>
-                    <Text style={styles.detailsModalText}>Ano: {props.year}</Text>
-                    <Text style={styles.detailsModalText}>KM: {props.km} km</Text>
-                    <Text style={styles.detailsModalText}>Cor: {props.color}</Text>
-                    <Text style={styles.detailsModalText}>Cidade: {props.city}</Text>
-                    <Text style={styles.detailsModalText}>Estado: <Text style={styles.stateModal}>{props.state}</Text></Text>
+                    <Text style={styles.detailsModalText}>
+                      Nome: {props.name}
+                    </Text>
+                    <Text style={styles.detailsModalText}>
+                      Modelo: {props.model}
+                    </Text>
+                    <Text style={styles.detailsModalText}>
+                      Montadora: {props.brand}
+                    </Text>
+                    <Text style={styles.detailsModalText}>
+                      Ano: {props.year}
+                    </Text>
+                    <Text style={styles.detailsModalText}>
+                      KM: {props.km} km
+                    </Text>
+                    <Text style={styles.detailsModalText}>
+                      Cor: {props.color}
+                    </Text>
+                    <Text style={styles.detailsModalText}>
+                      Cidade: {props.city}
+                    </Text>
+                    <Text style={styles.detailsModalText}>
+                      Estado:{" "}
+                      <Text style={styles.stateModal}>{props.state}</Text>
+                    </Text>
                   </View>
                 </View>
                 <Pressable
@@ -140,7 +167,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     width: "100%",
-    height: 200
+    height: 200,
   },
   textTitleStyle: {
     fontSize: 16,
@@ -162,7 +189,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     paddingLeft: 15,
     margin: 2,
-    paddingBottom: 50
+    paddingBottom: 50,
   },
   textValueStyle: {
     fontSize: 20,
@@ -248,9 +275,9 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: "center",
     justifyContent: "center",
-    width: "100%"
+    width: "100%",
   },
-  imgModal:{
+  imgModal: {
     width: 200,
     height: 200,
     marginBottom: 20,
@@ -260,9 +287,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   stateModal: {
-    textTransform:"uppercase",
+    textTransform: "uppercase",
   },
   detailsModalText: {
-    margin: 10
-  }
+    margin: 10,
+  },
 });

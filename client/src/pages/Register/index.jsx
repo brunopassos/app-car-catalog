@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "../../components/Button";
 import { Api } from "../../service/api";
+import Toast from "react-native-toast-message";
 
 const schema = yup.object({
   email: yup
@@ -33,11 +34,19 @@ const RegisterScreen = ({ navigation }) => {
 
   function onSubmit(data) {
     Api.post("/users/register", data)
+      .then(() => showToast())
       .then((_) => {
         navigation.navigate("Login");
       })
       .catch((err) => console.error(err));
   }
+
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text2: "Cadastro realizado com sucesso!",
+    });
+  };
 
   return (
     <>
@@ -66,7 +75,7 @@ const RegisterScreen = ({ navigation }) => {
               onChangeText={onChange}
               style={styles.input}
               value={value}
-              placeholder={"Senha"}
+              placeholder={"Senha - Min 6 dígitos"}
               secureTextEntry={true}
             />
           )}

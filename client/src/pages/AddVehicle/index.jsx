@@ -17,6 +17,7 @@ import { Api } from "../../service/api";
 import { AuthContext } from "../../context/auth";
 import { useNavigation } from "@react-navigation/native";
 import mime from "mime";
+import Toast from "react-native-toast-message";
 
 const schema = yup.object({
   name: yup.string().required("O nome não pode ser vazio."),
@@ -29,7 +30,6 @@ const AddVehicleScreen = () => {
   const navigation = useNavigation();
 
   const { getData, vehicleToEdit, fetchData } = useContext(AuthContext);
-
 
   const {
     control,
@@ -67,6 +67,7 @@ const AddVehicleScreen = () => {
       },
     })
       .then(() => fetchData())
+      .then(() => showToast())
       .then((_) => navigation.navigate("Home"))
       .catch((err) => console.error(err));
   };
@@ -118,10 +119,18 @@ const AddVehicleScreen = () => {
     }
   };
 
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text2: "Veículo cadastrado com sucesso!",
+    });
+  };
+
   return (
     <>
       <Header />
       <ScrollView contentContainerStyle={styles.mainContainer}>
+        <Text>Nome</Text>
         <Controller
           control={control}
           name="name"
@@ -137,6 +146,7 @@ const AddVehicleScreen = () => {
         {errors.name && (
           <Text style={styles.errorMessage}>{errors.name?.message}</Text>
         )}
+        <Text>Marca</Text>
         <Controller
           control={control}
           name="brand"
@@ -152,6 +162,7 @@ const AddVehicleScreen = () => {
         {errors.brand && (
           <Text style={styles.errorMessage}>{errors.brand?.message}</Text>
         )}
+        <Text>Modelo</Text>
         <Controller
           control={control}
           name="model"
@@ -167,6 +178,7 @@ const AddVehicleScreen = () => {
         {errors.model && (
           <Text style={styles.errorMessage}>{errors.model?.message}</Text>
         )}
+        <Text>Foto</Text>
         <Controller
           control={control}
           name="imageLink"
@@ -182,6 +194,7 @@ const AddVehicleScreen = () => {
         {image === "" && (
           <Text style={styles.errorMessage}>{errors.imageLink?.message}</Text>
         )}
+        <Text>Ano</Text>
         <Controller
           control={control}
           name="year"
@@ -190,10 +203,13 @@ const AddVehicleScreen = () => {
               onChangeText={onChange}
               style={styles.input}
               value={value}
-              placeholder={"Ano"}
+              keyboardType={"numeric"}
+              maxLength={4}
+              placeholder={"Ex: 2022"}
             />
           )}
         />
+        <Text>Km</Text>
         <Controller
           control={control}
           name="km"
@@ -202,10 +218,12 @@ const AddVehicleScreen = () => {
               onChangeText={onChange}
               style={styles.input}
               value={value}
-              placeholder={"Km"}
+              keyboardType={"numeric"}
+              placeholder={"Ex: 35745"}
             />
           )}
         />
+        <Text>Cor</Text>
         <Controller
           control={control}
           name="color"
@@ -214,10 +232,11 @@ const AddVehicleScreen = () => {
               onChangeText={onChange}
               style={styles.input}
               value={value}
-              placeholder={"Cor"}
+              placeholder={"Ex: Azul"}
             />
           )}
         />
+        <Text>Cidade</Text>
         <Controller
           control={control}
           name="city"
@@ -226,10 +245,11 @@ const AddVehicleScreen = () => {
               onChangeText={onChange}
               style={styles.input}
               value={value}
-              placeholder={"Cidade"}
+              placeholder={"Ex: São Paulo"}
             />
           )}
         />
+        <Text>Estado</Text>
         <Controller
           control={control}
           name="state"
@@ -238,10 +258,12 @@ const AddVehicleScreen = () => {
               onChangeText={onChange}
               style={styles.input}
               value={value}
-              placeholder={"Estado"}
+              maxLength={2}
+              placeholder={"Ex: SP"}
             />
           )}
         />
+        <Text>Valor</Text>
         <Controller
           control={control}
           name="value"
@@ -250,7 +272,8 @@ const AddVehicleScreen = () => {
               onChangeText={onChange}
               style={styles.input}
               value={value}
-              placeholder={"Valor"}
+              keyboardType={"numeric"}
+              placeholder={"Ex: 17000"}
             />
           )}
         />

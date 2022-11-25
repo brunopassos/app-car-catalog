@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Api } from "../service/api";
+import Toast from "react-native-toast-message";
 
 export const AuthContext = createContext({});
 
@@ -21,7 +22,15 @@ function AuthProvider({ children }) {
     setValueRegisterScreen("none");
   }
 
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text2: "Até logo!",
+    });
+  };
+
   function logout() {
+    showToast();
     removeData();
     setDataBase([]);
     fetchData();
