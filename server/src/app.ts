@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from "express";
 import { AppError } from "./errors/appError";
 import userRoutes from "./routes/users/users.routes";
