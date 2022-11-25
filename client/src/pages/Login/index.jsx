@@ -88,7 +88,7 @@ const LoginScreen = () => {
         <Button labelButton={"Logar"} onPress={handleSubmit(onSubmit)} />
 
         <TouchableOpacity
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => navigation.navigate("Registrar")}
           style={styles.button}
         >
           <Text>Não tem uma conta? Cadastre-se!</Text>
