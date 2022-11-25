@@ -20,7 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 export const CarItem = (props) => {
   const navigation = useNavigation();
   const [carModalVisible, setCarModalVisible] = useState(false);
-  const { isLoggedin, getData, setVehicleToEdit } = useContext(AuthContext);
+  const { isLoggedin, getData, setVehicleToEdit, fetchData } = useContext(AuthContext);
 
   const removeCar = async (vehicle) => {
     const token = await getData();
@@ -29,7 +29,7 @@ export const CarItem = (props) => {
         Authorization: token,
       },
     })
-      .then()
+      .then(() => fetchData())
       .catch((err) => console.error(err));
   };
 
