@@ -1,8 +1,5 @@
 <h1>App Car Catalog</h1> 
 
-Você pode assistir a uma demonstração clicando [aqui](https://youtu.be/wtwQAAD6iH4) | You can see a demonstration by clicking [here](https://youtu.be/wtwQAAD6iH4)
-
-
 Status: MVP finalizada - Requer atualizações - Em andamento ⚠️
 
 ## Sobre este projeto
